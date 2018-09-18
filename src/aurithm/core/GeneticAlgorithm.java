@@ -1,5 +1,6 @@
 package aurithm.core;
 
+import aurithm.core.data.NetworkConfig;
 import aurithm.core.model.Chromosome;
 import aurithm.core.model.Population;
 
@@ -32,7 +33,7 @@ public class GeneticAlgorithm {
             Chromosome chromosome2 = selectTournamentPopulation(population).getChromosomes()[0];
             crossoverPopulation.getChromosomes()[i] = crossoverChromosome(chromosome1, chromosome2);
         }
-        crossoverPopulation.sortChromosomesByFitness(this);
+        crossoverPopulation.sortChromosomesByFitness();
         return crossoverPopulation;
     }
 
@@ -46,7 +47,7 @@ public class GeneticAlgorithm {
             mutatePopulation.getChromosomes()[i] = mutateChromosome(population.getChromosomes()[i]);
         }
 
-        mutatePopulation.sortChromosomesByFitness(this);
+        mutatePopulation.sortChromosomesByFitness();
         return mutatePopulation;
     }
 
@@ -81,48 +82,11 @@ public class GeneticAlgorithm {
             tournamentPopulation.getChromosomes()[i] = population.getChromosomes()[(int)(Math.random()*population.getChromosomes().length)];
         }
 
-        tournamentPopulation.sortChromosomesByFitness(this);
+        tournamentPopulation.sortChromosomesByFitness();
         return tournamentPopulation;
     }
 
-    public static class Builder{
-        private int populationSize = 10;
-        private int[] targetChromosome = {1,0,1,0,0,1,0,1};
-        private double mutationRate = 0.25;
-        private int numbOfEliteChromosomes = 1;
-        private int tournamentSelectionSize = 4;
-
-        public Builder(){
-
-        }
-
-        public Builder populationSize(int size){
-            this.populationSize = size;
-            return this;
-        }
-
-        public Builder targetChromosome(int... chromosome){
-            this.targetChromosome = chromosome;
-            return this;
-        }
-
-        public Builder mutationRate(double rate){
-            this.mutationRate = rate;
-            return this;
-        }
-
-        public Builder numbOfEliteChromosomes(int numb){
-            this.numbOfEliteChromosomes = numb;
-            return this;
-        }
-
-        public Builder tournamentSelectionSize(int size){
-            this.tournamentSelectionSize = size;
-            return this;
-        }
-
-        public GeneticAlgorithm build(){
-            return new GeneticAlgorithm(populationSize, targetChromosome, mutationRate, numbOfEliteChromosomes, tournamentSelectionSize);
-        }
+    public static GeneticAlgorithm fromNetworkConfig(NetworkConfig config){
+        return new GeneticAlgorithm(config.populationSize(), config.targetChromosome(), config.mutationRate(), config.numbOfEliteChromosomes(), config.tournamentSelectionSize());
     }
 }

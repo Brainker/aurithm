@@ -1,6 +1,6 @@
 package aurithm.core.model;
 
-import aurithm.core.GeneticAlgorithm;
+import aurithm.core.data.NetworkConfig;
 
 import java.util.Arrays;
 
@@ -24,18 +24,18 @@ public class Chromosome {
         return genes;
     }
 
-    public int fitness(GeneticAlgorithm algorithm) {
+    public int fitness() {
         if (fitnessHasChanged) {
-            fitness = recalculateFitness(algorithm);
+            fitness = recalculateFitness();
             fitnessHasChanged = false;
         }
         return fitness;
     }
 
-    public int recalculateFitness(GeneticAlgorithm algorithm){
+    public int recalculateFitness(){
         int chromosomeFitness = 0;
         for (int i = 0; i < genes.length; i++)
-            if (genes[i] == algorithm.TARGET_CHROMOSOME[i])
+            if (genes[i] == NetworkConfig.getInstance().targetChromosome()[i])
                 chromosomeFitness++;
         return chromosomeFitness;
     }

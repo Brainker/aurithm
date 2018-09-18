@@ -15,7 +15,7 @@ public class Population {
         for (int i = 0; i < chromosomes.length; i++) {
             chromosomes[i] = new Chromosome(algorithm.TARGET_CHROMOSOME.length).initializeChromosome();
         }
-        sortChromosomesByFitness(algorithm);
+        sortChromosomesByFitness();
         return this;
     }
 
@@ -27,12 +27,12 @@ public class Population {
         return chromosomes[index];
     }
 
-    public void sortChromosomesByFitness(GeneticAlgorithm algorithm){
+    public void sortChromosomesByFitness(){
         Arrays.sort(chromosomes, ((t1, t2) -> {
             int flag = 0;
 
-            if (t1.fitness(algorithm) > t2.fitness(algorithm)) flag = -1;
-            else if (t1.fitness(algorithm) < t2.fitness(algorithm)) flag = 1;
+            if (t1.fitness() > t2.fitness()) flag = -1;
+            else if (t1.fitness() < t2.fitness()) flag = 1;
 
             return flag;
         }));
