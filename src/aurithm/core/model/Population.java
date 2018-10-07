@@ -1,29 +1,41 @@
 package aurithm.core.model;
 
-import aurithm.core.GeneticAlgorithm;
+import mathematika.core.Mathematika;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
-public class Population {
+public class Population
+        implements Serializable, Cloneable {
     private Chromosome[] chromosomes;
+    private int[] networkLayerSizes;
 
-    public Population(int length) {
+    public Population(int length, int[] networkLayerSizes) {
         this.chromosomes = new Chromosome[length];
+        this.networkLayerSizes = networkLayerSizes;
     }
 
-    public Population initializePopulation(GeneticAlgorithm algorithm) {
+    public Population initializePopulation(int chromosomeGeneLength) {
         for (int i = 0; i < chromosomes.length; i++) {
-            chromosomes[i] = new Chromosome(algorithm.TARGET_CHROMOSOME.length).initializeChromosome();
+            chromosomes[i] = new Chromosome(chromosomeGeneLength, networkLayerSizes).initializeChromosome();
         }
         sortChromosomesByFitness();
         return this;
     }
 
-    public Chromosome[] getChromosomes(){
+    public boolean isAlive(){
+        for(Chromosome c : chromosomes){
+            if (c.isAlive)
+                return true;
+        }
+        return false;
+    }
+
+    public Chromosome[] chromosomes(){
         return chromosomes;
     }
 
-    public Chromosome chromosome(int index){
+    public Chromosome chromosomeAt(int index){
         return chromosomes[index];
     }
 
@@ -36,5 +48,13 @@ public class Population {
 
             return flag;
         }));
+    }
+
+    public double averageFitness() {
+        int[] arr = new int[chromosomes.length];
+        for (int i = 0; i < chromosomes.length; i++) {
+            arr[i] = chromosomes[i].fitness();
+        }
+        return Mathematika.average(arr);
     }
 }

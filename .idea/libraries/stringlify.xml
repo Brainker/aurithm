@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="stringlify">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../stringlify/out/artifacts/stringlify_jar/stringlify.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
